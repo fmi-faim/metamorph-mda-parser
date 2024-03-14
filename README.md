@@ -5,6 +5,10 @@
 
 -----
 
+Light-weight parsing of Metamorph/VisiView Multi Dimensional Acquisition .nd files.
+
+For the file format description, see: https://support.moleculardevices.com/s/article/MDA-file-formats
+
 **Table of Contents**
 
 - [Installation](#installation)

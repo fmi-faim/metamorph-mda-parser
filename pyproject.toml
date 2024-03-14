@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "metamorph-mda-parser"
 dynamic = ["version"]
-description = ''
+description = 'Light-weight parsing of Metamorph/VisiView .nd files.'
 readme = "README.md"
 requires-python = ">=3.8"
 license = "BSD-3-Clause"
@@ -24,7 +24,9 @@ classifiers = [
   "Programming Language :: Python :: Implementation :: CPython",
   "Programming Language :: Python :: Implementation :: PyPy",
 ]
-dependencies = []
+dependencies = [
+  "pandas",
+]
 
 [project.urls]
 Documentation = "https://github.com/fmi-faim/metamorph-mda-parser#readme"
