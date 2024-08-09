@@ -15,6 +15,11 @@ def sample_2ch_75pos_361t():
     return Path("tests/resources/sample_2ch_75pos_361t.nd")
 
 
+@pytest.fixture
+def sample_4ch_1pos_1z():
+    return Path("tests/resources/sample_4ch_1pos_1z.nd")
+
+
 def test_sample_4ch_4pos(sample_4ch_4pos):
     nd_info = NdInfo(sample_4ch_4pos)
 
@@ -66,3 +71,7 @@ def test_sample_2ch_75pos_361t(sample_2ch_75pos_361t):
     files = nd_info.get_files()
 
     assert len(files) == 54150
+
+
+def test_sample_4ch_1pos_1z(sample_4ch_1pos_1z):
+    nd_info = NdInfo(sample_4ch_1pos_1z)
