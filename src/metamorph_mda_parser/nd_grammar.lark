@@ -1,0 +1,40 @@
+start: line+ "\"EndFile\""
+line: _QUOTE _special_key _QUOTE "," _special_value
+    | _QUOTE _string_key _QUOTE "," _QUOTE _string_value _QUOTE
+    | _QUOTE _boolean_key _QUOTE "," boolean_value
+    | _QUOTE _integer_key _QUOTE "," _integer_value
+    | _QUOTE _float_key _QUOTE "," _float_value
+
+_special_key: /NDInfoFile/
+            | /Description/
+            | /StartTime[0-9]+/
+_special_value: /.+/
+
+_string_key: /WaveName[0-9]+/
+           | /Stage[0-9]+/
+_string_value: /[^"]+/
+
+_boolean_key: /DoTimelapse/
+            | /DoStage/
+            | /DoWave/
+            | /DoZSeries/
+            | /WaveInFileName/
+            | /WaveDoZ[0-9]+/
+boolean_value: BOOLEAN
+
+_integer_key: /NWavelengths/
+            | /NStagePositions/
+            | /NTimePoints/
+            | /NZSteps/
+_integer_value: INT
+
+_float_key: /ZStepSize/
+_float_value: DECIMAL | INT
+
+%import common.INT
+%import common.DECIMAL
+%import common.WS
+%ignore WS
+
+BOOLEAN: "TRUE" | "FALSE"
+_QUOTE: "\""

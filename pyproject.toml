@@ -7,7 +7,7 @@ name = "metamorph-mda-parser"
 dynamic = ["version"]
 description = 'Light-weight parsing of Metamorph/VisiView .nd files.'
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.10"
 license = "BSD-3-Clause"
 keywords = []
 authors = [
@@ -16,8 +16,6 @@ authors = [
 classifiers = [
   "Development Status :: 4 - Beta",
   "Programming Language :: Python",
-  "Programming Language :: Python :: 3.8",
-  "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
@@ -25,7 +23,9 @@ classifiers = [
   "Programming Language :: Python :: Implementation :: PyPy",
 ]
 dependencies = [
+  "lark",
   "pandas",
+  "pydantic",
 ]
 
 [project.urls]
@@ -54,7 +54,7 @@ cov = [
 ]
 
 [[tool.hatch.envs.all.matrix]]
-python = ["3.8", "3.9", "3.10", "3.11", "3.12"]
+python = ["3.10", "3.11", "3.12"]
 
 [tool.hatch.envs.types]
 dependencies = [
@@ -76,8 +76,12 @@ metamorph_mda_parser = ["src/metamorph_mda_parser", "*/metamorph-mda-parser/src/
 tests = ["tests", "*/metamorph-mda-parser/tests"]
 
 [tool.coverage.report]
+show_missing = true
 exclude_lines = [
   "no cov",
   "if __name__ == .__main__.:",
   "if TYPE_CHECKING:",
 ]
+
+[tool.ruff.lint.flake8-type-checking]
+runtime-evaluated-base-classes = ["pydantic.BaseModel"]
