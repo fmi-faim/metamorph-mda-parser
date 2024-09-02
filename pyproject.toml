@@ -83,5 +83,13 @@ exclude_lines = [
   "if TYPE_CHECKING:",
 ]
 
+[tool.ruff.lint.extend-per-file-ignores]
+"**/tests/*" = ["INP001"]
+
 [tool.ruff.lint.flake8-type-checking]
 runtime-evaluated-base-classes = ["pydantic.BaseModel"]
+
+[tool.pytest.ini_options]
+addopts = [
+    "--import-mode=importlib",
+]
