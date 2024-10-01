@@ -1,3 +1,6 @@
 ﻿dist
 __pycache__
 .coverage*
+# pixi environments
+.pixi
+*.egg-info
