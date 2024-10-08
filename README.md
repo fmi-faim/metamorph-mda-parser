@@ -2,6 +2,7 @@
 
 [![PyPI - Version](https://img.shields.io/pypi/v/metamorph-mda-parser.svg)](https://pypi.org/project/metamorph-mda-parser)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/metamorph-mda-parser.svg)](https://pypi.org/project/metamorph-mda-parser)
+[![Pixi Badge](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/prefix-dev/pixi/main/assets/badge/v0.json)](https://pixi.sh)
 
 -----
 

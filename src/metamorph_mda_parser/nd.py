@@ -89,3 +89,18 @@ class NdInfo(BaseModel):
                 "time",
             ],
         )
+
+    def get_data_array(self, channels=None, positions=None, timepoints=None):
+        from metamorph_mda_parser.xarray import HAS_XARRAY
+        if HAS_XARRAY:
+            from metamorph_mda_parser.xarray import dataarray_from_dataframe
+        else:
+            raise ValueError("Dependencies for data array creation not found.")
+        files = self.get_files()
+        if channels:
+            files = files[files["channel"].isin(channels)]
+        if positions:
+            files = files[files["position"].isin(positions)]
+        if timepoints:
+            files = files[files["time"].isin(timepoints)]
+        return dataarray_from_dataframe(files, self.wave_do_z)

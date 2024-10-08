@@ -28,6 +28,15 @@ dependencies = [
   "pydantic",
 ]
 
+[project.optional-dependencies]
+xarray = [
+  "dask",
+  "numpy<2",
+  "tifffile",
+  "xarray",
+  "zarr",
+]
+
 [project.urls]
 Documentation = "https://github.com/fmi-faim/metamorph-mda-parser#readme"
 Issues = "https://github.com/fmi-faim/metamorph-mda-parser/issues"
@@ -41,27 +50,6 @@ dependencies = [
   "coverage[toml]>=6.5",
   "pytest",
 ]
-[tool.hatch.envs.default.scripts]
-test = "pytest {args:tests}"
-test-cov = "coverage run -m pytest {args:tests}"
-cov-report = [
-  "- coverage combine",
-  "coverage report",
-]
-cov = [
-  "test-cov",
-  "cov-report",
-]
-
-[[tool.hatch.envs.all.matrix]]
-python = ["3.10", "3.11", "3.12"]
-
-[tool.hatch.envs.types]
-dependencies = [
-  "mypy>=1.0.0",
-]
-[tool.hatch.envs.types.scripts]
-check = "mypy --install-types --non-interactive {args:src/metamorph_mda_parser tests}"
 
 [tool.coverage.run]
 source_pkgs = ["metamorph_mda_parser", "tests"]
@@ -93,3 +81,44 @@ runtime-evaluated-base-classes = ["pydantic.BaseModel"]
 addopts = [
     "--import-mode=importlib",
 ]
+
+[tool.pixi.project]
+channels = ["conda-forge"]
+platforms = ["win-64", "linux-64", "osx-arm64"]
+
+[tool.pixi.pypi-dependencies]
+metamorph-mda-parser = { path = ".", editable = true }
+
+[tool.pixi.environments]
+default = { solve-group = "py312" }
+xarray = { features = ["xarray"], solve-group = "py312" }
+jupyter = { features = ["jupyter", "xarray"], solve-group = "py312" }
+py310-base = { features = ["py310", "test"], solve-group = "py310" }
+py310-xarray = { features = ["py310", "test", "xarray"], solve-group = "py310" }
+py311-base = { features = ["py311", "test"], solve-group = "py311" }
+py311-xarray = { features = ["py311", "test", "xarray"], solve-group = "py311" }
+py312-base = { features = ["py312", "test"], solve-group = "py312" }
+py312-xarray = { features = ["py312", "test", "xarray"], solve-group = "py312" }
+
+[tool.pixi.tasks]
+
+[tool.pixi.feature.jupyter.dependencies]
+jupyter = "*"
+
+[tool.pixi.feature.jupyter.tasks]
+jupyter = "jupyter lab"
+
+[tool.pixi.feature.test.dependencies]
+pytest = "*"
+
+[tool.pixi.feature.test.tasks]
+test = "pytest"
+
+[tool.pixi.feature.py310.dependencies]
+python = "==3.10"
+
+[tool.pixi.feature.py311.dependencies]
+python = "==3.11"
+
+[tool.pixi.feature.py312.dependencies]
+python = "==3.12"
