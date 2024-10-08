@@ -41,7 +41,7 @@ jobs:
       run: hatch build
 
     - name: Test package
-      run: hatch run test
+      run: hatch test
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v4
