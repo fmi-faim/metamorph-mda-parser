@@ -27,7 +27,7 @@ def _load_file(row, channels_3d: list[bool]):
     time = row['time']
     channel = row['channel']
     
-    chunks = (-1,) * (3 if channels_3d[channel] else 2)
+    chunks = (-1,) * (2 if not channels_3d or not channels_3d[channel] else 3)
     with imread(path, aszarr=True) as store:
         data = da.from_zarr(store, chunks=chunks)
     
