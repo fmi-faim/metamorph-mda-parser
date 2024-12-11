@@ -14,7 +14,7 @@ def dataarray_from_dataframe(df: "DataFrame", channels_3d: list[bool]):
     if missing_columns:
         msg = f"Missing columns: {missing_columns}"
         raise ValueError(msg)
-    if df["channel"].max() > len(channels_3d):
+    if len(channels_3d) > 0 and df["channel"].max() > len(channels_3d):
         msg = f"No dimension information available for certain channels."
         raise ValueError(msg)
     data_arrays = [_load_file(row, channels_3d) for _, row in df.iterrows()]
@@ -27,7 +27,7 @@ def _load_file(row, channels_3d: list[bool]):
     time = row['time']
     channel = row['channel']
     
-    chunks = (-1,) * (2 if not channels_3d or not channels_3d[channel] else 3)
+    chunks = (-1,) * (2 if len(channels_3d) == 0 or not channels_3d[channel] else 3)
     with imread(path, aszarr=True) as store:
         data = da.from_zarr(store, chunks=chunks)
     
