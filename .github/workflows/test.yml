@@ -39,4 +39,9 @@ jobs:
           environments: ${{ matrix.pixi-environment }}
       
       - name: Run tests
-        run: pixi run --environment ${{ matrix.pixi-environment }} test
+        run: pixi run --environment ${{ matrix.pixi-environment }} cov-xml
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
