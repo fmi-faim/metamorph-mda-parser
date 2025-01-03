@@ -1,5 +1,5 @@
 [build-system]
-requires = ["hatchling", "hatch-vcs"]
+requires = ["hatchling==1.26.3", "hatch-vcs"]
 build-backend = "hatchling.build"
 
 [project]
@@ -50,9 +50,6 @@ dependencies = [
   "coverage[toml]>=6.5",
   "pytest",
 ]
-
-[tool.hatch.metadata]
-name = "metamorph-mda-parser"
 
 [tool.coverage.run]
 source_pkgs = ["metamorph_mda_parser", "tests"]
