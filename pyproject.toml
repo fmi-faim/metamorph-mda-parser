@@ -51,6 +51,9 @@ dependencies = [
   "pytest",
 ]
 
+[tool.hatch.metadata]
+name = "metamorph-mda-parser"
+
 [tool.coverage.run]
 source_pkgs = ["metamorph_mda_parser", "tests"]
 branch = true
