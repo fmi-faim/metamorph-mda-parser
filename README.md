@@ -1,5 +1,6 @@
 # metamorph-mda-parser
 
+[![DOI](https://zenodo.org/badge/772082904.svg)](https://doi.org/10.5281/zenodo.14592243)
 [![test](https://github.com/fmi-faim/metamorph-mda-parser/actions/workflows/test.yml/badge.svg)](https://github.com/fmi-faim/metamorph-mda-parser/actions/workflows/test.yml)
 [![codecov](https://codecov.io/gh/fmi-faim/metamorph-mda-parser/graph/badge.svg?token=X8NBB1B44N)](https://codecov.io/gh/fmi-faim/metamorph-mda-parser)
 [![PyPI - Version](https://img.shields.io/pypi/v/metamorph-mda-parser.svg)](https://pypi.org/project/metamorph-mda-parser)
