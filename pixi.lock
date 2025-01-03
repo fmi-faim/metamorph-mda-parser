@@ -3552,8 +3552,8 @@ packages:
   timestamp: 1713250613726
 - pypi: .
   name: metamorph-mda-parser
-  version: 0.1.5.dev1+gb931282
-  sha256: d2b7965cafa567b32991d807738faf3debc7e6b6ae6c6cf47a4ae4b4a2cf60a6
+  version: 0.1.6.dev0+g25d9e59.d20250103
+  sha256: 8b02f91aa420cbfdfd5124e3dd0ace5dbf1df9bd287741b6529e48611d4c0bf6
   requires_dist:
   - lark
   - pandas
