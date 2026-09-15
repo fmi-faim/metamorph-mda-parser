@@ -10,6 +10,15 @@ from pydantic.alias_generators import to_pascal
 from metamorph_mda_parser.lark import parse
 
 
+class ImageFile(BaseModel):
+    path: Path
+    channel: int
+    channel_name: str
+    position: int
+    position_name: str
+    time: int
+
+
 class NdInfo(BaseModel):
     model_config = ConfigDict(
         alias_generator=AliasGenerator(
@@ -50,26 +59,29 @@ class NdInfo(BaseModel):
                 yield (
                     i,
                     w,
-                    f"_w{i+1}{w}" if self.wave_in_file_name else "",
+                    f"_w{i + 1}{w}" if self.wave_in_file_name else "",
                     self.wave_do_z[i] if self.wave_do_z else False,
                 )
 
     def _stage_positions(self):
         for s, s_name in enumerate(self.stage_positions):
             if self.do_stage:
-                yield s, s_name, f"_s{s+1}"
+                yield s, s_name, f"_s{s + 1}"
 
     def _timepoints(self):
         if self.do_timelapse:
             for t in range(self.n_time_points):
-                yield t, f"_t{t+1}"
+                yield t, f"_t{t + 1}"
 
     def _get_path_channel_position_time(self):
-        for w_idx, w_name, w, has_z in list(self._wavelengths()) or [("", self.do_z)]:
+        for w_idx, w_name, w, has_z in list(self._wavelengths()) or [
+            (0, "", "", self.do_z_series)
+        ]:
             for s_idx, s_name, s in list(self._stage_positions()) or [(0, None, "")]:
                 for t_idx, t in list(self._timepoints()) or [(0, "")]:
                     yield (
-                        self.path.parent / (self.name + w + s + t + (".stk" if has_z else ".tif")),
+                        self.path.parent
+                        / (self.name + w + s + t + (".stk" if has_z else ".tif")),
                         w_idx,
                         w_name,
                         s_idx,
@@ -90,8 +102,22 @@ class NdInfo(BaseModel):
             ],
         )
 
+    def get_tiles(self) -> list[ImageFile]:
+        return [
+            ImageFile(
+                path=record[0],
+                channel=record[1],
+                channel_name=record[2],
+                position=record[3],
+                position_name=record[4],
+                time=record[5],
+            )
+            for record in self._get_path_channel_position_time()
+        ]
+
     def get_data_array(self, channels=None, positions=None, timepoints=None):
         from metamorph_mda_parser.xarray import HAS_XARRAY
+
         if HAS_XARRAY:
             from metamorph_mda_parser.xarray import dataarray_from_dataframe
         else:

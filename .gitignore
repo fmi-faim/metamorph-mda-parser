@@ -1,6 +1,8 @@
-﻿dist
+dist
 __pycache__
 .coverage*
 # pixi environments
 .pixi
 *.egg-info
+.DS_Store
+coverage.xml

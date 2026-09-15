@@ -7,7 +7,7 @@ name = "metamorph-mda-parser"
 dynamic = ["version"]
 description = 'Light-weight parsing of Metamorph/VisiView .nd files.'
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 license = "BSD-3-Clause"
 keywords = []
 authors = [
@@ -16,9 +16,10 @@ authors = [
 classifiers = [
   "Development Status :: 4 - Beta",
   "Programming Language :: Python",
-  "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
   "Programming Language :: Python :: Implementation :: CPython",
   "Programming Language :: Python :: Implementation :: PyPy",
 ]
@@ -31,7 +32,7 @@ dependencies = [
 [project.optional-dependencies]
 xarray = [
   "dask",
-  "numpy<2",
+  "numpy",
   "tifffile",
   "xarray",
   "zarr",
@@ -82,7 +83,7 @@ addopts = [
     "--import-mode=importlib",
 ]
 
-[tool.pixi.project]
+[tool.pixi.workspace]
 channels = ["conda-forge"]
 platforms = ["win-64", "linux-64", "osx-arm64"]
 
@@ -90,15 +91,17 @@ platforms = ["win-64", "linux-64", "osx-arm64"]
 metamorph-mda-parser = { path = ".", editable = true }
 
 [tool.pixi.environments]
-default = { solve-group = "py312" }
-xarray = { features = ["xarray"], solve-group = "py312" }
-jupyter = { features = ["jupyter", "xarray"], solve-group = "py312" }
-py310-base = { features = ["py310", "test"], solve-group = "py310" }
-py310-xarray = { features = ["py310", "test", "xarray"], solve-group = "py310" }
+default = { solve-group = "py311" }
+xarray = { features = ["xarray"], solve-group = "py311" }
+jupyter = { features = ["jupyter", "xarray"], solve-group = "py311" }
 py311-base = { features = ["py311", "test"], solve-group = "py311" }
 py311-xarray = { features = ["py311", "test", "xarray"], solve-group = "py311" }
 py312-base = { features = ["py312", "test"], solve-group = "py312" }
 py312-xarray = { features = ["py312", "test", "xarray"], solve-group = "py312" }
+py313-base = { features = ["py313", "test"], solve-group = "py313" }
+py313-xarray = { features = ["py313", "test", "xarray"], solve-group = "py313" }
+py314-base = { features = ["py314", "test"], solve-group = "py314" }
+py314-xarray = { features = ["py314", "test", "xarray"], solve-group = "py314" }
 
 [tool.pixi.tasks]
 
@@ -116,11 +119,14 @@ pytest-cov = "*"
 test = "pytest --cov=src --cov-report term-missing"
 cov-xml = "pytest --cov=src --cov-report xml"
 
-[tool.pixi.feature.py310.dependencies]
-python = "==3.10"
-
 [tool.pixi.feature.py311.dependencies]
 python = "==3.11"
 
 [tool.pixi.feature.py312.dependencies]
 python = "==3.12"
+
+[tool.pixi.feature.py313.dependencies]
+python = "==3.13"
+
+[tool.pixi.feature.py314.dependencies]
+python = "==3.14"
