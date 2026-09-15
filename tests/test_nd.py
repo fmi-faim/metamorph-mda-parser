@@ -2,7 +2,7 @@ from pathlib import Path
 
 import pytest
 
-from metamorph_mda_parser.nd import NdInfo
+from metamorph_mda_parser.nd import ImageFile, NdInfo
 
 
 @pytest.fixture
@@ -49,6 +49,27 @@ def test_sample_4ch_4pos(sample_4ch_4pos):
         "Position4",
     ]
     assert files["time"].unique().tolist() == [0]
+
+
+def test_get_tiles(sample_4ch_4pos):
+    nd_info = NdInfo.from_path(sample_4ch_4pos)
+
+    tiles = nd_info.get_tiles()
+    files = nd_info.get_files()
+
+    assert len(tiles) == len(files) == 16
+    assert all(isinstance(tile, ImageFile) for tile in tiles)
+    assert [
+        (
+            tile.path,
+            tile.channel,
+            tile.channel_name,
+            tile.position,
+            tile.position_name,
+            tile.time,
+        )
+        for tile in tiles
+    ] == list(files.itertuples(index=False, name=None))
 
 
 def test_sample_2ch_75pos_361t(sample_2ch_75pos_361t):

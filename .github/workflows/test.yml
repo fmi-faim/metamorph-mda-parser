@@ -23,12 +23,14 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
         pixi-environment:
-          - py310-base
-          - py310-xarray
           - py311-base
           - py311-xarray
           - py312-base
           - py312-xarray
+          - py313-base
+          - py313-xarray
+          - py314-base
+          - py314-xarray
     steps:
       - uses: actions/checkout@v7
 
