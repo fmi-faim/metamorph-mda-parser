@@ -1,6 +1,7 @@
 from pathlib import Path
 
 import pytest
+from lark.exceptions import UnexpectedToken
 
 from metamorph_mda_parser.nd import ImageFile, NdInfo
 
@@ -18,6 +19,11 @@ def sample_2ch_75pos_361t():
 @pytest.fixture
 def sample_4ch_1pos_1z():
     return Path("tests/resources/sample_4ch_1pos_1z.nd")
+
+
+@pytest.fixture
+def nd_with_decimal_comma_zstepsize():
+    return Path("tests/resources/decimal_comma_zstepsize.nd")
 
 
 def test_sample_4ch_4pos(sample_4ch_4pos):
@@ -115,3 +121,16 @@ def test_sample_4ch_1pos_1z(sample_4ch_1pos_1z):
 
     assert len(files) == 4
     assert all(p.suffix == ".tif" for p in files["path"])
+
+
+def test_comma_decimal_raises_by_default(nd_with_decimal_comma_zstepsize):
+    with pytest.raises(UnexpectedToken):
+        NdInfo.from_path(nd_with_decimal_comma_zstepsize)
+
+
+def test_fix_decimal_comma(nd_with_decimal_comma_zstepsize):
+    nd_info = NdInfo.from_path(nd_with_decimal_comma_zstepsize, fix_decimal_comma=True)
+
+    assert nd_info.do_z_series
+    assert nd_info.n_z_steps == 25
+    assert nd_info.z_step_size == 2.0

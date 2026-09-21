@@ -23,7 +23,7 @@ def dataarray_from_dataframe(df: "DataFrame", channels_3d: list[bool]):
         msg = "No dimension information available for certain channels."
         raise ValueError(msg)
     data_arrays = [_load_file(row, channels_3d) for _, row in df.iterrows()]
-    return xr.combine_by_coords(data_arrays)["intensity"]
+    return xr.combine_by_coords(data_arrays, join="outer")["intensity"]
 
 
 def _load_file(row, channels_3d: list[bool]):

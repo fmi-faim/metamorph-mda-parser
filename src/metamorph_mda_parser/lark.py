@@ -1,4 +1,13 @@
+import re
+
 from lark import Lark, Transformer
+
+# Some files are (incorrectly) written with a comma as decimal separator for ZStepSize.
+_ZSTEPSIZE_COMMA_RE = re.compile(r'("ZStepSize",\s*\d+),(\d+)')
+
+
+def sanitize_decimal_comma(content: str) -> str:
+    return _ZSTEPSIZE_COMMA_RE.sub(r"\1.\2", content)
 
 
 class NDInfoTransformer(Transformer):
@@ -31,6 +40,13 @@ class NDInfoTransformer(Transformer):
         return b[0].value == "TRUE"
 
 
-def parse(content):
-    parser = Lark.open("nd_grammar.lark", rel_to=__file__, parser="lalr", transformer=NDInfoTransformer())
+def parse(content, fix_decimal_comma: bool = False):
+    if fix_decimal_comma:
+        content = sanitize_decimal_comma(content)
+    parser = Lark.open(
+        "nd_grammar.lark",
+        rel_to=__file__,
+        parser="lalr",
+        transformer=NDInfoTransformer(),
+    )
     return parser.parse(content)
