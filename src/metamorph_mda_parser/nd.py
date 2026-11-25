@@ -44,12 +44,20 @@ class NdInfo(BaseModel):
     wave_in_file_name: bool
 
     @staticmethod
-    def from_path(path: Path, fix_decimal_comma: bool = False):
+    def from_path(
+        path: Path,
+        fix_decimal_comma: bool = False,
+        remove_suffix: str | None = None,
+    ):
         with open(path) as f:
             content = f.read()
         result = parse(content, fix_decimal_comma=fix_decimal_comma)
         result["Path"] = path
-        result["Name"] = path.stem
+        result["Name"] = (
+            path.stem
+            if remove_suffix is None
+            else path.name.removesuffix(remove_suffix)
+        )
         result["Version"] = "1.0"  # HACK
         return NdInfo(**result)
 

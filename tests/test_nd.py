@@ -134,3 +134,9 @@ def test_fix_decimal_comma(nd_with_decimal_comma_zstepsize):
     assert nd_info.do_z_series
     assert nd_info.n_z_steps == 25
     assert nd_info.z_step_size == 2.0
+
+
+def test_remove_suffix(sample_4ch_4pos):
+    nd_info = NdInfo.from_path(sample_4ch_4pos, remove_suffix=".nd")
+
+    assert nd_info.name == sample_4ch_4pos.stem
